@@ -18,7 +18,7 @@ export interface ReadingListPartialState {
 export const readingListAdapter: EntityAdapter<ReadingListItem> = createEntityAdapter<
   ReadingListItem
 >({
-  selectId: (item) => item.bookId,
+  selectId: (item) => item?.bookId,
 });
 
 export const initialState: State = readingListAdapter.getInitialState({
