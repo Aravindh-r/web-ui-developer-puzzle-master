@@ -31,4 +31,23 @@ export class ReadingListService {
     });
     return id;
   }
+
+  async updateBook(id: string): Promise<ReadingListItem> {
+    let updatedState: ReadingListItem;
+    this.storage.update((list) => {
+      return list.map((data) => {
+        if (data?.bookId === id) {
+          updatedState = {
+            ...data,
+            finished: true,
+            finishedDate: new Date().toISOString(),
+          };
+          return updatedState;
+        } else {
+          return data;
+        }
+      });
+    });
+    return updatedState;
+  }
 }
