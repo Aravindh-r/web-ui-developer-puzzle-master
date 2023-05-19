@@ -9,7 +9,7 @@ export const loadReadingListSuccess = createAction(
 );
 export const loadReadingListError = createAction(
   '[Reading List API] Load list error',
-  props<{ error: string }>()
+  props<{ error:string }>()
 );
 
 export const addToReadingList = createAction(
