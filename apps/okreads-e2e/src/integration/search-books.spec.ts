@@ -25,4 +25,20 @@ describe('When: Use the search feature', () => {
   xit('Then: I should see search results as I am typing', () => {
     // TODO: Implement this test!
   });
+
+  it('Then: it should add book to reading list and undo on snackbar',()=>{
+    cy.get('input[type="search"]').type('javascript');
+
+    cy.get('form').submit();
+
+    cy.get('[data-testing="book-item"]').should('have.length.greaterThan', 1);
+
+    cy.get('.book--title-0--want-btn').click()
+
+    cy.get('.mat-simple-snackbar-action > button').click()
+
+    cy.get('.book--title-0--want-btn').should('be.enabled')
+
+  })
+
 });
