@@ -14,11 +14,7 @@ export const getReadingListState = createFeatureSelector<
   State
 >(READING_LIST_FEATURE_KEY);
 
-const {
-  selectEntities,
-  selectAll,
-  selectTotal,
-} = readingListAdapter.getSelectors();
+const { selectEntities, selectAll } = readingListAdapter.getSelectors();
 
 export const getReadingListEntities = createSelector(
   getReadingListState,
@@ -35,9 +31,16 @@ export const getAllBooks = createSelector<
   Record<string, ReadingListItem>,
   ReadingListBook[]
 >(getBooks, getReadingListEntities, (books, entities) => {
-  return books.map((b) => ({ ...b, isAdded: Boolean(entities[b.id]) }));
+  return books.map((b) => ({
+    ...b,
+    isAdded: Boolean(entities[b.id]),
+    finished: entities[b?.id]?.finished,
+  }));
 });
 
 export const getReadingList = createSelector(getReadingListState, selectAll);
 
-export const getTotalUnread = createSelector(getReadingListState, selectTotal);
+
+export const getTotalUnread = createSelector(getReadingList, (readingList) =>
+  readingList.filter((unread) => !unread.finished)
+);

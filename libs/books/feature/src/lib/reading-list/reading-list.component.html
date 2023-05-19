@@ -1,20 +1,51 @@
 <ng-container *ngIf="(readingList$ | async).length > 0; else empty">
-  <div class="reading-list-item" *ngFor="let b of readingList$ | async">
+  <div
+    class="reading-list-item"
+    *ngFor="let b of readingList$ | async; let i = index"
+  >
     <div>
-      <img class="reading-list-item--cover" [src]="b?.coverUrl" [alt]="b?.title" />
+      <img
+        class="reading-list-item--cover"
+        [src]="b?.coverUrl"
+        [alt]="b?.title"
+      />
     </div>
     <div class="reading-list-item--details">
-      <strong class="reading-list-item--details--title">{{ b?.title }}</strong>
+      <strong class="reading-list-item--details--title reading-list-{{ i }}--title">{{ b?.title }}</strong>
       <div class="reading-list-item--details--author">
-        {{ b?.authors.join(',') }}
+        {{ b?.authors?.join(',') }}
       </div>
+      <div *ngIf="b?.finished">
+        <span class="reading-list-{{ i }}--read-date">
+          Read book on:
+          <strong>{{
+            b?.finishedDate | date: 'shortDate':'en-US'
+          }}</strong></span
+        >
+      </div>
+    </div>
+    <div *ngIf="b?.finished"><mat-icon [title]="'Done reading '+ b?.title" class="reading-list-item--finished-status">done</mat-icon></div>
+    <div *ngIf="!b?.finished">
+      <button
+        mat-icon-button
+        color="primary"
+        [title]="'Confirm finished reading ' + b?.title"
+        [attr.aria-label]="'Confirm finished reading ' + b?.title"
+        (click)="updateFinishedStatus(b)"
+        data-testing="'reading-list-'+i+'-finished'"
+        class="reading-list-{{ i }}--finished-btn"
+      >
+        <mat-icon class="reading-list-item--finished-status">book</mat-icon>
+      </button>
     </div>
     <div>
       <button
         mat-icon-button
         color="warn"
+        [title]="'Remove ' + b?.title + ' from reading list'"
         [attr.aria-label]="'Remove ' + b?.title + ' from reading list'"
         (click)="removeFromReadingList(b)"
+        class="reading-list-{{ i }}--remove-btn"
       >
         <mat-icon>remove_circle</mat-icon>
       </button>

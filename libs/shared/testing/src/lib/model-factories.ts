@@ -7,7 +7,7 @@ export function createBook(id: string): Book {
     description: '',
     authors: [`Author ${id}`],
     coverUrl: '',
-    publishedDate: new Date(2020, 0, 1).toISOString()
+    publishedDate: new Date(2020, 0, 1).toISOString(),
   };
 }
 
@@ -18,6 +18,19 @@ export function createReadingListItem(bookId: string): ReadingListItem {
     description: '',
     authors: [`Author ${bookId}`],
     coverUrl: '',
-    publishedDate: new Date(2020, 0, 1).toISOString()
+    publishedDate: new Date(2020, 0, 1).toISOString(),
+  };
+}
+
+export function updateReadingListItem(bookId: string): ReadingListItem {
+  return {
+    bookId,
+    title: `Book ${bookId}`,
+    description: '',
+    authors: [`Author ${bookId}`],
+    coverUrl: '',
+    publishedDate: new Date(2020, 0, 1).toISOString(),
+    finished: true,
+    finishedDate: new Date().toISOString(),
   };
 }

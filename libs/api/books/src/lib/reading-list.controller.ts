@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Put,
   Response,
 } from '@nestjs/common';
 import { Book } from '@tmo/shared/models';
@@ -29,5 +30,10 @@ export class ReadingListController {
   async removeFromReadingList(@Param() params, @Response() res) {
     const id = await this.readingList.removeBook(params.id);
     return res.status(HttpStatus.OK).json(id);
+  }
+
+  @Put('/reading-list/:id/finished')
+  async updateReadingListStatus(@Param() params) {
+    return await this.readingList.updateBook(params.id);
   }
 }
